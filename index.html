@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AR Snow Globe Magic ❄️</title>
+    <title>AR Christmas Cats Snow ❄️</title>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar-nft.js"></script>
 
@@ -15,7 +15,7 @@
             width: 100%;
             position: absolute;
             top: 0; left: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #c94b4b 0%, #4b134f 100%);
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -29,7 +29,7 @@
             margin: 10px;
         }
 
-        .snowflake {
+        .loading-snowflake {
             position: absolute;
             top: -10px;
             color: white;
@@ -49,7 +49,7 @@
             transform: translateX(-50%);
             background: rgba(255, 255, 255, 0.95);
             padding: 16px 24px;
-            color: #667eea;
+            color: #c94b4b;
             font-size: 18px;
             font-weight: bold;
             border-radius: 20px;
@@ -62,29 +62,6 @@
         }
         #message.visible { opacity: 1; }
 
-        #tapButton {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            padding: 16px 32px;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            z-index: 9999;
-            opacity: 0;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(245, 87, 108, 0.4);
-        }
-        #tapButton.visible { opacity: 1; }
-        #tapButton:active {
-            transform: translateX(-50%) scale(0.95);
-        }
-
         #counter {
             position: fixed;
             top: 80px;
@@ -92,7 +69,7 @@
             transform: translateX(-50%);
             background: rgba(255, 255, 255, 0.9);
             padding: 12px 24px;
-            color: #667eea;
+            color: #c94b4b;
             font-size: 24px;
             font-weight: bold;
             border-radius: 15px;
@@ -102,108 +79,54 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.1);
         }
         #counter.visible { opacity: 1; }
+
+        .screen-snowflake {
+            position: fixed;
+            color: white;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 8888;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            animation: screenFall linear forwards;
+        }
+
+        @keyframes screenFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="arjs-loader">
-    <div>✨ Loading Winter Magic... ✨</div>
-    <div style="font-size: 0.8em;">Point camera at any flat surface</div>
+    <div>❄️ Loading Christmas Cats... 🐱</div>
+    <div style="font-size: 0.8em;">Point camera at the cats on tree image</div>
 </div>
 
 <div id="message"></div>
 <div id="counter">❄️ 0</div>
-<button id="tapButton">Make it Snow! ❄️</button>
 
 <a-scene
         embedded
         vr-mode-ui="enabled: false"
         renderer="logarithmicDepthBuffer: true; antialias: true;"
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; maxDetectionRate: 60;">
 
-    <!-- Используем HIRO маркер - самый надёжный встроенный маркер -->
-    <a-marker preset="hiro" id="mainMarker">
+    <!-- NFT маркер с вашей картинкой -->
+    <a-nft
+            id="catsMarker"
+            type="nft"
+            url="./markers/catsontree"
+            smooth="true"
+            smoothCount="15"
+            smoothTolerance="0.02"
+            smoothThreshold="8">
 
-        <!-- Стеклянный купол снежного шара -->
-        <a-entity id="snowGlobe">
-            <!-- База шара -->
-            <a-cylinder
-                    position="0 0.1 0"
-                    radius="0.8"
-                    height="0.2"
-                    color="#8B4513"
-                    material="metalness: 0.3; roughness: 0.7">
-            </a-cylinder>
-
-            <!-- Полупрозрачный купол -->
-            <a-sphere
-                    position="0 0.8 0"
-                    radius="0.7"
-                    color="#e0f7ff"
-                    material="opacity: 0.3; transparent: true; side: double"
-                    segments-height="18"
-                    segments-width="36">
-            </a-sphere>
-
-            <!-- Ёлочка в центре -->
-            <a-cone
-                    id="tree"
-                    position="0 0.3 0"
-                    radius-bottom="0.3"
-                    radius-top="0.05"
-                    height="0.6"
-                    color="#228B22"
-                    animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear">
-            </a-cone>
-
-            <!-- Звезда на ёлке -->
-            <a-octahedron
-                    position="0 0.65 0"
-                    radius="0.1"
-                    color="#FFD700"
-                    animation="property: rotation; to: 360 360 0; loop: true; dur: 3000">
-            </a-octahedron>
-
-            <!-- Подарки под ёлкой -->
-            <a-box position="-0.2 0.15 0.15" width="0.15" height="0.15" depth="0.15" color="#FF1493"></a-box>
-            <a-box position="0.2 0.15 -0.15" width="0.12" height="0.12" depth="0.12" color="#00CED1"></a-box>
-            <a-box position="0.15 0.15 0.15" width="0.1" height="0.18" depth="0.1" color="#FFD700"></a-box>
-
-            <!-- Контейнер для снежинок -->
-            <a-entity id="snowContainer" position="0 0.8 0"></a-entity>
-        </a-entity>
-
-        <!-- Волшебное свечение вокруг -->
-        <a-entity id="magicGlow">
-            <a-torus
-                    position="0 0.2 0"
-                    radius="1"
-                    radius-tubular="0.02"
-                    color="#FFD700"
-                    material="emissive: #FFD700; emissiveIntensity: 0.8; opacity: 0.7; transparent: true"
-                    animation="property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear">
-            </a-torus>
-
-            <a-torus
-                    position="0 0.8 0"
-                    radius="1.1"
-                    radius-tubular="0.02"
-                    color="#00CED1"
-                    material="emissive: #00CED1; emissiveIntensity: 0.8; opacity: 0.6; transparent: true"
-                    animation="property: rotation; to: 0 -360 0; loop: true; dur: 8000; easing: linear">
-            </a-torus>
-
-            <a-torus
-                    position="0 1.4 0"
-                    radius="0.9"
-                    radius-tubular="0.02"
-                    color="#FF69B4"
-                    material="emissive: #FF69B4; emissiveIntensity: 0.8; opacity: 0.5; transparent: true"
-                    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
-            </a-torus>
-        </a-entity>
-
-    </a-marker>
+        <!-- Просто показываем, что маркер найден - невидимый объект -->
+        <a-box position="0 0 0" scale="0.001 0.001 0.001" visible="false"></a-box>
+    </a-nft>
 
     <a-entity camera></a-entity>
 </a-scene>
@@ -211,22 +134,19 @@
 <script>
     const loader = document.querySelector('.arjs-loader');
     const message = document.getElementById('message');
-    const tapButton = document.getElementById('tapButton');
     const counter = document.getElementById('counter');
-    const marker = document.getElementById('mainMarker');
-    const snowContainer = document.getElementById('snowContainer');
+    const marker = document.getElementById('catsMarker');
 
     let markerFound = false;
-    let snowflakeCount = 0;
-    const maxSnowflakes = 30;
+    let totalSnowflakes = 0;
 
     // Снежинки для фона загрузки
     function createLoadingSnowflakes() {
         for (let i = 0; i < 20; i++) {
             setTimeout(() => {
                 const snowflake = document.createElement('div');
-                snowflake.className = 'snowflake';
-                snowflake.textContent = '❄';
+                snowflake.className = 'loading-snowflake';
+                snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
                 snowflake.style.left = Math.random() * 100 + '%';
                 snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
                 snowflake.style.animationDelay = Math.random() * 2 + 's';
@@ -238,15 +158,14 @@
     createLoadingSnowflakes();
 
     marker.addEventListener('markerFound', () => {
-        console.log('✨ Marker found!');
+        console.log('🐱 Cats marker found!');
         markerFound = true;
 
         loader.style.display = 'none';
 
-        message.textContent = '🎄 Snow Globe appeared! Tap to make it snow! ❄️';
+        message.textContent = '🐱 Christmas Cats found! Tap anywhere to make it snow! ❄️';
         message.classList.add('visible');
 
-        tapButton.classList.add('visible');
         counter.classList.add('visible');
 
         setTimeout(() => {
@@ -255,104 +174,132 @@
     });
 
     marker.addEventListener('markerLost', () => {
-        console.log('Marker lost');
+        console.log('Cats marker lost');
     });
 
-    function createSnowflake() {
-        if (snowflakeCount >= maxSnowflakes) {
-            // Удаляем старые снежинки
-            const firstSnowflake = snowContainer.firstChild;
-            if (firstSnowflake) {
-                snowContainer.removeChild(firstSnowflake);
-                snowflakeCount--;
-            }
-        }
+    function createScreenSnowflake(x, y) {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'screen-snowflake';
 
-        const snowflake = document.createElement('a-sphere');
+        // Случайный вид снежинки
+        const snowTypes = ['❄', '❅', '❆', '✻', '✼', '❉'];
+        snowflake.textContent = snowTypes[Math.floor(Math.random() * snowTypes.length)];
 
-        // Случайная позиция внутри купола
-        const angle = Math.random() * Math.PI * 2;
-        const radius = Math.random() * 0.5;
-        const x = Math.cos(angle) * radius;
-        const z = Math.sin(angle) * radius;
-        const y = 0.5 + Math.random() * 0.3;
+        // Позиция клика
+        snowflake.style.left = x + 'px';
+        snowflake.style.top = y + 'px';
 
-        snowflake.setAttribute('position', `${x} ${y} ${z}`);
-        snowflake.setAttribute('radius', '0.02');
-        snowflake.setAttribute('color', '#FFFFFF');
-        snowflake.setAttribute('material', 'emissive: #FFFFFF; emissiveIntensity: 0.5');
+        // Случайный размер
+        const size = 20 + Math.random() * 20;
+        snowflake.style.fontSize = size + 'px';
 
-        // Анимация падения
-        const fallDuration = 2000 + Math.random() * 2000;
-        const targetY = 0.2 + Math.random() * 0.1;
+        // Случайная продолжительность падения
+        const duration = 2 + Math.random() * 3;
+        snowflake.style.animationDuration = duration + 's';
 
-        snowflake.setAttribute('animation', `
-            property: position; 
-            to: ${x} ${targetY} ${z}; 
-            dur: ${fallDuration}; 
-            easing: linear
-        `);
+        // Небольшое отклонение по горизонтали
+        const drift = (Math.random() - 0.5) * 100;
+        snowflake.style.setProperty('--drift', drift + 'px');
 
-        // Добавляем вращение
-        snowflake.setAttribute('animation__rotate', `
-            property: rotation; 
-            to: ${Math.random() * 360} ${Math.random() * 360} ${Math.random() * 360}; 
-            dur: ${fallDuration}; 
-            loop: true; 
-            easing: linear
-        `);
+        document.body.appendChild(snowflake);
 
-        snowContainer.appendChild(snowflake);
-        snowflakeCount++;
+        totalSnowflakes++;
+        counter.textContent = `❄️ ${totalSnowflakes}`;
 
-        counter.textContent = `❄️ ${snowflakeCount}`;
-
-        // Удаляем снежинку после падения
+        // Удаляем после анимации
         setTimeout(() => {
             if (snowflake.parentNode) {
-                snowContainer.removeChild(snowflake);
-                snowflakeCount--;
-                counter.textContent = `❄️ ${snowflakeCount}`;
+                document.body.removeChild(snowflake);
             }
-        }, fallDuration + 1000);
+        }, duration * 1000);
     }
 
-    tapButton.addEventListener('click', () => {
+    // Обработка кликов/тапов
+    document.body.addEventListener('click', (e) => {
         if (markerFound) {
-            // Создаём несколько снежинок за раз
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => createSnowflake(), i * 100);
+            // Создаём несколько снежинок вокруг точки клика
+            const numFlakes = 3 + Math.floor(Math.random() * 5); // 3-7 снежинок
+
+            for (let i = 0; i < numFlakes; i++) {
+                setTimeout(() => {
+                    const offsetX = (Math.random() - 0.5) * 100;
+                    const offsetY = (Math.random() - 0.5) * 100;
+                    createScreenSnowflake(
+                        e.clientX + offsetX,
+                        e.clientY + offsetY
+                    );
+                }, i * 50);
             }
 
-            // Визуальный фидбек
-            tapButton.style.transform = 'translateX(-50%) scale(0.95)';
-            setTimeout(() => {
-                tapButton.style.transform = 'translateX(-50%) scale(1)';
-            }, 100);
-
-            // Показываем сообщение
+            // Показываем случайное сообщение
             const messages = [
                 '❄️ Beautiful!',
                 '✨ Magical!',
                 '🎄 Festive!',
-                '⭐ Wonderful!',
-                '💫 Amazing!'
+                '🐱 Meow-velous!',
+                '⭐ Purr-fect!',
+                '💫 Amazing!',
+                '🎅 Ho-ho-ho!',
+                '❄️ Let it snow!'
             ];
             message.textContent = messages[Math.floor(Math.random() * messages.length)];
             message.classList.add('visible');
 
             setTimeout(() => {
                 message.classList.remove('visible');
-            }, 1500);
+            }, 1000);
         }
     });
 
-    // Автоматическое создание снежинок
-    setInterval(() => {
-        if (markerFound && snowflakeCount < maxSnowflakes) {
-            createSnowflake();
+    // Обработка touch событий для мобильных
+    document.body.addEventListener('touchstart', (e) => {
+        if (markerFound && e.touches.length > 0) {
+            e.preventDefault();
+            const touch = e.touches[0];
+
+            const numFlakes = 3 + Math.floor(Math.random() * 5);
+
+            for (let i = 0; i < numFlakes; i++) {
+                setTimeout(() => {
+                    const offsetX = (Math.random() - 0.5) * 100;
+                    const offsetY = (Math.random() - 0.5) * 100;
+                    createScreenSnowflake(
+                        touch.clientX + offsetX,
+                        touch.clientY + offsetY
+                    );
+                }, i * 50);
+            }
+
+            const messages = [
+                '❄️ Beautiful!',
+                '✨ Magical!',
+                '🎄 Festive!',
+                '🐱 Meow-velous!',
+                '⭐ Purr-fect!',
+                '💫 Amazing!',
+                '🎅 Ho-ho-ho!',
+                '❄️ Let it snow!'
+            ];
+            message.textContent = messages[Math.floor(Math.random() * messages.length)];
+            message.classList.add('visible');
+
+            setTimeout(() => {
+                message.classList.remove('visible');
+            }, 1000);
         }
-    }, 1000);
+    });
+
+    // Дополнительная CSS анимация с drift
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes screenFall {
+            to { 
+                transform: translateY(100vh) translateX(var(--drift, 0px)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
 </script>
 
 </body>
