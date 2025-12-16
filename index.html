@@ -1,344 +1,303 @@
-<!--<!doctype html>-->
-<!--<html>-->
-<!--<head>-->
-<!--    <meta charset="utf-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
-<!--    <title>AR Crimmus Cats</title>-->
-<!--    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>-->
-<!--    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar-nft.js"></script>-->
-
-<!--    <style>-->
-<!--        body { margin: 0; overflow: hidden; }-->
-
-<!--        .arjs-loader {-->
-<!--            height: 100%;-->
-<!--            width: 100%;-->
-<!--            position: absolute;-->
-<!--            top: 0; left: 0;-->
-<!--            background: rgba(0, 0, 0, 0.85);-->
-<!--            z-index: 9999;-->
-<!--            display: flex;-->
-<!--            justify-content: center;-->
-<!--            align-items: center;-->
-<!--        }-->
-<!--        .arjs-loader div {-->
-<!--            color: white;-->
-<!--            font-size: 1.3em;-->
-<!--            font-family: system-ui, sans-serif;-->
-<!--        }-->
-
-<!--        #message {-->
-<!--            position: fixed;-->
-<!--            top: 20px;-->
-<!--            left: 50%;-->
-<!--            transform: translateX(-50%);-->
-<!--            background: rgba(255,182,193,0.9);-->
-<!--            padding: 14px 20px;-->
-<!--            color: #fff;-->
-<!--            font-family: system-ui, sans-serif;-->
-<!--            border-radius: 14px;-->
-<!--            text-align: center;-->
-<!--            max-width: 85%;-->
-<!--            font-size: 15px;-->
-<!--            z-index: 9999;-->
-<!--            opacity: 0;-->
-<!--            transition: opacity 0.4s ease;-->
-<!--        }-->
-<!--        #message.visible { opacity: 1; }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<div class="arjs-loader"><div>Loading AR scene...</div></div>-->
-<!--<div id="message"></div>-->
-
-<!--<a-scene-->
-<!--        embedded-->
-<!--        vr-mode-ui="enabled: false"-->
-<!--        renderer="logarithmicDepthBuffer: true; antialias: true;"-->
-<!--        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; maxDetectionRate: 60;">-->
-
-<!--    &lt;!&ndash; Green Cat Marker &ndash;&gt;-->
-<!--    <a-nft-->
-<!--            id="greenCat"-->
-<!--            type="nft"-->
-<!--            url="./markers/cat-green"-->
-<!--            smooth="true"-->
-<!--            smoothCount="20"-->
-<!--            smoothTolerance="0.01"-->
-<!--            smoothThreshold="10">-->
-
-<!--        <a-entity id="greenHearts">-->
-<!--            &lt;!&ndash; Центральное большое сердечко &ndash;&gt;-->
-<!--            <a-sphere-->
-<!--                    position="50 120 0"-->
-<!--                    radius="25"-->
-<!--                    color="#ff69b4"-->
-<!--                    animation="property: position; to: 50 150 0; loop: true; dur: 2000; dir: alternate; easing: easeInOutQuad">-->
-<!--            </a-sphere>-->
-
-<!--            &lt;!&ndash; Сердечки по кругу - орбита &ndash;&gt;-->
-<!--            <a-entity-->
-<!--                    position="50 130 0"-->
-<!--                    rotation="-90 0 0"-->
-<!--                    animation="property: rotation; to: -90 360 0; loop: true; dur: 8000; easing: linear">-->
-
-<!--                <a-sphere position="40 0 0" radius="15" color="#ff1493"-->
-<!--                          animation="property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; loop: true; dur: 1000; dir: alternate">-->
-<!--                </a-sphere>-->
-
-<!--                <a-sphere position="-40 0 0" radius="15" color="#ff69b4"-->
-<!--                          animation="property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; loop: true; dur: 1200; dir: alternate">-->
-<!--                </a-sphere>-->
-
-<!--                <a-sphere position="0 0 40" radius="15" color="#ff1493"-->
-<!--                          animation="property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; loop: true; dur: 1100; dir: alternate">-->
-<!--                </a-sphere>-->
-
-<!--                <a-sphere position="0 0 -40" radius="15" color="#ff69b4"-->
-<!--                          animation="property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; loop: true; dur: 1300; dir: alternate">-->
-<!--                </a-sphere>-->
-<!--            </a-entity>-->
-
-<!--            &lt;!&ndash; Маленькие блестящие сердечки &ndash;&gt;-->
-<!--            <a-sphere position="80 150 30" radius="10" color="#ffb6c1"-->
-<!--                      animation="property: rotation; to: 0 360 0; loop: true; dur: 2000">-->
-<!--            </a-sphere>-->
-
-<!--            <a-sphere position="20 150 -30" radius="10" color="#ffb6c1"-->
-<!--                      animation="property: rotation; to: 0 360 0; loop: true; dur: 2500">-->
-<!--            </a-sphere>-->
-
-<!--            <a-sphere position="-20 160 20" radius="8" color="#ffc0cb"-->
-<!--                      animation="property: position; to: -20 180 20; loop: true; dur: 1800; dir: alternate">-->
-<!--            </a-sphere>-->
-<!--        </a-entity>-->
-
-<!--        <a-text-->
-<!--                value="Green Crimmus!"-->
-<!--                position="50 180 0"-->
-<!--                align="center"-->
-<!--                color="#00ff00"-->
-<!--                scale="40 40 40">-->
-<!--        </a-text>-->
-<!--    </a-nft>-->
-
-<!--    &lt;!&ndash; Purple Cat Marker &ndash;&gt;-->
-<!--    <a-nft-->
-<!--            id="purpleCat"-->
-<!--            type="nft"-->
-<!--            url="./markers/cat-purple"-->
-<!--            smooth="true"-->
-<!--            smoothCount="20"-->
-<!--            smoothTolerance="0.01"-->
-<!--            smoothThreshold="10"-->
-<!--            visible="false">-->
-
-<!--        <a-entity id="purpleHearts">-->
-<!--            &lt;!&ndash; Большое центральное сердечко &ndash;&gt;-->
-<!--            <a-sphere-->
-<!--                    position="50 130 0"-->
-<!--                    radius="30"-->
-<!--                    color="#da70d6"-->
-<!--                    animation="property: rotation; to: 0 360 0; loop: true; dur: 3000">-->
-<!--            </a-sphere>-->
-
-<!--            &lt;!&ndash; Орбитальные сердечки (как у Nyan Cat) &ndash;&gt;-->
-<!--            <a-entity-->
-<!--                    position="50 140 0"-->
-<!--                    rotation="-90 0 0"-->
-<!--                    animation="property: rotation; to: -90 360 0; loop: true; dur: 5000; easing: linear">-->
-
-<!--                <a-sphere radius="18" color="#ff00ff" position="50 0 0"></a-sphere>-->
-<!--                <a-sphere radius="16" color="#da70d6" position="-50 0 0"></a-sphere>-->
-<!--                <a-sphere radius="14" color="#ff00ff" position="0 0 50"></a-sphere>-->
-<!--                <a-sphere radius="16" color="#da70d6" position="0 0 -50"></a-sphere>-->
-<!--                <a-sphere radius="12" color="#ffb6c1" position="35 0 35"></a-sphere>-->
-<!--            </a-entity>-->
-
-<!--            &lt;!&ndash; Плавающие сердечки сверху &ndash;&gt;-->
-<!--            <a-sphere position="80 170 20" radius="12" color="#ffb6c1"-->
-<!--                      animation="property: position; to: 80 190 20; loop: true; dur: 2000; dir: alternate">-->
-<!--            </a-sphere>-->
-
-<!--            <a-sphere position="20 170 -20" radius="12" color="#ffb6c1"-->
-<!--                      animation="property: position; to: 20 190 -20; loop: true; dur: 2200; dir: alternate">-->
-<!--            </a-sphere>-->
-
-<!--            &lt;!&ndash; Пульсирующие звёздочки &ndash;&gt;-->
-<!--            <a-sphere radius="15" color="#ffd6ff" position="90 160 30"-->
-<!--                      animation="property: scale; dir: alternate; from: 0.5 0.5 0.5; to: 1.5 1.5 1.5; loop: true; dur: 600">-->
-<!--            </a-sphere>-->
-
-<!--            <a-sphere radius="13" color="#e6ccff" position="10 160 40"-->
-<!--                      animation="property: scale; dir: alternate; from: 0.5 0.5 0.5; to: 1.6 1.6 1.6; loop: true; dur: 700">-->
-<!--            </a-sphere>-->
-<!--        </a-entity>-->
-
-<!--        <a-text-->
-<!--                value="Purple Crimmus!"-->
-<!--                position="50 200 0"-->
-<!--                align="center"-->
-<!--                color="#ff00ff"-->
-<!--                scale="40 40 40">-->
-<!--        </a-text>-->
-<!--    </a-nft>-->
-
-<!--    <a-entity camera></a-entity>-->
-<!--</a-scene>-->
-
-<!--<script>-->
-<!--    const loader = document.querySelector('.arjs-loader');-->
-<!--    const message = document.getElementById('message');-->
-
-<!--    let greenScanned = false;-->
-
-<!--    const greenMarker = document.getElementById('greenCat');-->
-<!--    const purpleMarker = document.getElementById('purpleCat');-->
-
-<!--    greenMarker.addEventListener('markerFound', () => {-->
-<!--        console.log('Green cat marker found!');-->
-<!--        loader.style.display = 'none';-->
-<!--        message.textContent = '💚 Green Cat found! Now scan Purple Cat! 💜';-->
-<!--        message.classList.add('visible');-->
-
-<!--        greenScanned = true;-->
-<!--        purpleMarker.setAttribute('visible', 'true');-->
-<!--    });-->
-
-<!--    greenMarker.addEventListener('markerLost', () => {-->
-<!--        console.log('Green cat marker lost');-->
-<!--    });-->
-
-<!--    purpleMarker.addEventListener('markerFound', () => {-->
-<!--        if (greenScanned) {-->
-<!--            console.log('Purple cat marker found!');-->
-<!--            message.textContent = '💜 Purple Cat found! Both cats complete! 🎉';-->
-
-<!--            setTimeout(() => {-->
-<!--                message.classList.remove('visible');-->
-<!--            }, 3000);-->
-<!--        }-->
-<!--    });-->
-
-<!--    purpleMarker.addEventListener('markerLost', () => {-->
-<!--        console.log('Purple cat marker lost');-->
-<!--    });-->
-<!--</script>-->
-
-<!--</body>-->
-<!--</html>-->
-
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AR Cats - Simple Version</title>
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <title>AR Crimmus Cats</title>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar-nft.js"></script>
 
     <style>
         body { margin: 0; overflow: hidden; }
+
+        .arjs-loader {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .arjs-loader div {
+            color: white;
+            font-size: 1.3em;
+            font-family: system-ui, sans-serif;
+            margin: 10px;
+        }
+        .debug-info {
+            color: #00ff00;
+            font-size: 0.9em;
+        }
 
         #message {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            padding: 15px 25px;
-            color: white;
-            font-family: Arial, sans-serif;
-            border-radius: 10px;
+            background: rgba(255,182,193,0.9);
+            padding: 14px 20px;
+            color: #fff;
+            font-family: system-ui, sans-serif;
+            border-radius: 14px;
             text-align: center;
+            max-width: 85%;
+            font-size: 15px;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        #message.visible { opacity: 1; }
+
+        #debugPanel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: #00ff00;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            border-radius: 8px;
             z-index: 9999;
         }
     </style>
 </head>
 <body>
 
-<div id="message">Scan HIRO marker (green hearts)<br>Then scan KANJI marker (purple hearts)</div>
+<div class="arjs-loader">
+    <div>Loading AR scene...</div>
+    <div class="debug-info">Point camera at cat images</div>
+</div>
+<div id="message"></div>
+<div id="debugPanel">
+    Waiting for markers...<br>
+    Green: <span id="greenStatus">❌</span><br>
+    Purple: <span id="purpleStatus">❌</span>
+</div>
 
-<a-scene embedded arjs>
+<a-scene
+        embedded
+        vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true; antialias: true;"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; maxDetectionRate: 60; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
 
-    <!-- HIRO marker = Green Cat -->
-    <a-marker id="marker1" preset="hiro">
-        <!-- Зелёные сердечки -->
-        <a-sphere position="0 0.5 0" radius="0.3" color="#ff69b4"
-                  animation="property: position; to: 0 0.8 0; loop: true; dur: 1500; dir: alternate">
-        </a-sphere>
+    <!-- Green Cat Marker -->
+    <a-nft
+            id="greenCat"
+            type="nft"
+            url="./markers/cat-green"
+            smooth="true"
+            smoothCount="15"
+            smoothTolerance="0.02"
+            smoothThreshold="8">
 
-        <a-sphere position="0.5 0.5 0" radius="0.2" color="#ff1493"
-                  animation="property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; loop: true; dur: 1000; dir: alternate">
-        </a-sphere>
+        <a-entity id="greenHearts" visible="false">
+            <!-- Центральное большое сердечко -->
+            <a-sphere
+                    position="50 120 0"
+                    radius="25"
+                    color="#ff69b4"
+                    animation="property: position; to: 50 150 0; loop: true; dur: 2000; dir: alternate; easing: easeInOutQuad">
+            </a-sphere>
 
-        <a-sphere position="-0.5 0.5 0" radius="0.2" color="#ff69b4"
-                  animation="property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; loop: true; dur: 1200; dir: alternate">
-        </a-sphere>
+            <!-- Сердечки по кругу - орбита -->
+            <a-entity
+                    position="50 130 0"
+                    rotation="-90 0 0"
+                    animation="property: rotation; to: -90 360 0; loop: true; dur: 8000; easing: linear">
 
-        <a-sphere position="0 0.5 0.5" radius="0.2" color="#ff1493"
-                  animation="property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; loop: true; dur: 1100; dir: alternate">
-        </a-sphere>
+                <a-sphere position="40 0 0" radius="15" color="#ff1493"
+                          animation="property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; loop: true; dur: 1000; dir: alternate">
+                </a-sphere>
 
-        <a-sphere position="0 0.5 -0.5" radius="0.2" color="#ff69b4"
-                  animation="property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; loop: true; dur: 1300; dir: alternate">
-        </a-sphere>
+                <a-sphere position="-40 0 0" radius="15" color="#ff69b4"
+                          animation="property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; loop: true; dur: 1200; dir: alternate">
+                </a-sphere>
 
-        <a-text value="Green Cat!" position="0 1.2 0" align="center" color="#00ff00" scale="0.5 0.5 0.5"></a-text>
-    </a-marker>
+                <a-sphere position="0 0 40" radius="15" color="#ff1493"
+                          animation="property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; loop: true; dur: 1100; dir: alternate">
+                </a-sphere>
 
-    <!-- KANJI marker = Purple Cat (появится после первого) -->
-    <a-marker id="marker2" preset="kanji" visible="false">
-        <!-- Фиолетовые сердечки -->
-        <a-sphere position="0 0.6 0" radius="0.35" color="#da70d6"
-                  animation="property: rotation; to: 0 360 0; loop: true; dur: 3000">
-        </a-sphere>
+                <a-sphere position="0 0 -40" radius="15" color="#ff69b4"
+                          animation="property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; loop: true; dur: 1300; dir: alternate">
+                </a-sphere>
+            </a-entity>
 
-        <!-- Орбитальные сердечки -->
-        <a-entity rotation="0 0 0"
-                  animation="property: rotation; to: 0 360 0; loop: true; dur: 4000; easing: linear">
+            <!-- Маленькие блестящие сердечки -->
+            <a-sphere position="80 150 30" radius="10" color="#ffb6c1"
+                      animation="property: rotation; to: 0 360 0; loop: true; dur: 2000">
+            </a-sphere>
 
-            <a-sphere position="0.6 0.6 0" radius="0.2" color="#ff00ff"></a-sphere>
-            <a-sphere position="-0.6 0.6 0" radius="0.2" color="#ff00ff"></a-sphere>
-            <a-sphere position="0 0.6 0.6" radius="0.2" color="#da70d6"></a-sphere>
-            <a-sphere position="0 0.6 -0.6" radius="0.2" color="#da70d6"></a-sphere>
+            <a-sphere position="20 150 -30" radius="10" color="#ffb6c1"
+                      animation="property: rotation; to: 0 360 0; loop: true; dur: 2500">
+            </a-sphere>
+
+            <a-sphere position="-20 160 20" radius="8" color="#ffc0cb"
+                      animation="property: position; to: -20 180 20; loop: true; dur: 1800; dir: alternate">
+            </a-sphere>
         </a-entity>
 
-        <!-- Плавающие сердечки -->
-        <a-sphere position="0.4 1 0.2" radius="0.15" color="#ffb6c1"
-                  animation="property: position; to: 0.4 1.4 0.2; loop: true; dur: 2000; dir: alternate">
-        </a-sphere>
+        <a-text
+                id="greenText"
+                value="Green Crimmus!"
+                position="50 180 0"
+                align="center"
+                color="#00ff00"
+                scale="40 40 40"
+                visible="false">
+        </a-text>
+    </a-nft>
 
-        <a-sphere position="-0.4 1 -0.2" radius="0.15" color="#ffb6c1"
-                  animation="property: position; to: -0.4 1.4 -0.2; loop: true; dur: 2200; dir: alternate">
-        </a-sphere>
+    <!-- Purple Cat Marker -->
+    <a-nft
+            id="purpleCat"
+            type="nft"
+            url="./markers/cat-purple"
+            smooth="true"
+            smoothCount="15"
+            smoothTolerance="0.02"
+            smoothThreshold="8">
 
-        <a-text value="Purple Cat!" position="0 1.5 0" align="center" color="#ff00ff" scale="0.5 0.5 0.5"></a-text>
-    </a-marker>
+        <a-entity id="purpleHearts" visible="false">
+            <!-- Большое центральное сердечко -->
+            <a-sphere
+                    position="50 130 0"
+                    radius="30"
+                    color="#da70d6"
+                    animation="property: rotation; to: 0 360 0; loop: true; dur: 3000">
+            </a-sphere>
+
+            <a-entity
+                    position="50 140 0"
+                    rotation="-90 0 0"
+                    animation="property: rotation; to: -90 360 0; loop: true; dur: 5000; easing: linear">
+
+                <a-sphere radius="18" color="#ff00ff" position="50 0 0"></a-sphere>
+                <a-sphere radius="16" color="#da70d6" position="-50 0 0"></a-sphere>
+                <a-sphere radius="14" color="#ff00ff" position="0 0 50"></a-sphere>
+                <a-sphere radius="16" color="#da70d6" position="0 0 -50"></a-sphere>
+                <a-sphere radius="12" color="#ffb6c1" position="35 0 35"></a-sphere>
+            </a-entity>
+
+            <a-sphere position="80 170 20" radius="12" color="#ffb6c1"
+                      animation="property: position; to: 80 190 20; loop: true; dur: 2000; dir: alternate">
+            </a-sphere>
+
+            <a-sphere position="20 170 -20" radius="12" color="#ffb6c1"
+                      animation="property: position; to: 20 190 -20; loop: true; dur: 2200; dir: alternate">
+            </a-sphere>
+
+            <a-sphere radius="15" color="#ffd6ff" position="90 160 30"
+                      animation="property: scale; dir: alternate; from: 0.5 0.5 0.5; to: 1.5 1.5 1.5; loop: true; dur: 600">
+            </a-sphere>
+
+            <a-sphere radius="13" color="#e6ccff" position="10 160 40"
+                      animation="property: scale; dir: alternate; from: 0.5 0.5 0.5; to: 1.6 1.6 1.6; loop: true; dur: 700">
+            </a-sphere>
+        </a-entity>
+
+        <a-text
+                id="purpleText"
+                value="Purple Crimmus!"
+                position="50 200 0"
+                align="center"
+                color="#ff00ff"
+                scale="40 40 40"
+                visible="false">
+        </a-text>
+    </a-nft>
 
     <a-entity camera></a-entity>
 </a-scene>
 
 <script>
+    const loader = document.querySelector('.arjs-loader');
     const message = document.getElementById('message');
-    const marker1 = document.getElementById('marker1');
-    const marker2 = document.getElementById('marker2');
+    const greenStatus = document.getElementById('greenStatus');
+    const purpleStatus = document.getElementById('purpleStatus');
 
-    let marker1Found = false;
+    let greenScanned = false;
+    let purpleScanned = false;
 
-    marker1.addEventListener('markerFound', () => {
-        console.log('HIRO marker found!');
-        message.textContent = '💚 Green Cat found! Now scan KANJI marker! 💜';
-        marker1Found = true;
-        marker2.setAttribute('visible', 'true');
+    const greenMarker = document.getElementById('greenCat');
+    const purpleMarker = document.getElementById('purpleCat');
+
+    const greenHearts = document.getElementById('greenHearts');
+    const greenText = document.getElementById('greenText');
+    const purpleHearts = document.getElementById('purpleHearts');
+    const purpleText = document.getElementById('purpleText');
+
+    // Отладка - проверка загрузки маркеров
+    console.log('Green marker element:', greenMarker);
+    console.log('Purple marker element:', purpleMarker);
+
+    greenMarker.addEventListener('markerFound', () => {
+        console.log('🎉 Green cat marker found!');
+        loader.style.display = 'none';
+
+        greenHearts.setAttribute('visible', 'true');
+        greenText.setAttribute('visible', 'true');
+
+        greenStatus.textContent = '✅';
+
+        if (!greenScanned) {
+            greenScanned = true;
+            message.textContent = '💚 Green Cat found! Now scan Purple Cat! 💜';
+            message.classList.add('visible');
+        }
     });
 
-    marker2.addEventListener('markerFound', () => {
-        if (marker1Found) {
-            console.log('KANJI marker found!');
-            message.textContent = '💜 Both cats found! 🎉';
+    greenMarker.addEventListener('markerLost', () => {
+        console.log('Green cat marker lost');
+        greenHearts.setAttribute('visible', 'false');
+        greenText.setAttribute('visible', 'false');
+        greenStatus.textContent = '❌';
+    });
+
+    purpleMarker.addEventListener('markerFound', () => {
+        console.log('🎉 Purple cat marker found!');
+        loader.style.display = 'none';
+
+        purpleHearts.setAttribute('visible', 'true');
+        purpleText.setAttribute('visible', 'true');
+
+        purpleStatus.textContent = '✅';
+
+        if (!purpleScanned) {
+            purpleScanned = true;
+            if (greenScanned) {
+                message.textContent = '💜 Purple Cat found! Both cats complete! 🎉';
+            } else {
+                message.textContent = '💜 Purple Cat found! Now find Green Cat! 💚';
+            }
+            message.classList.add('visible');
         }
+
+        if (greenScanned && purpleScanned) {
+            setTimeout(() => {
+                message.textContent = '🎉 BOTH CATS FOUND! HAPPY CRIMMUS! 🎄';
+            }, 1000);
+        }
+    });
+
+    purpleMarker.addEventListener('markerLost', () => {
+        console.log('Purple cat marker lost');
+        purpleHearts.setAttribute('visible', 'false');
+        purpleText.setAttribute('visible', 'false');
+        purpleStatus.textContent = '❌';
+    });
+
+    // Отладка - вывод событий AR.js
+    window.addEventListener('arjs-video-loaded', () => {
+        console.log('✅ AR.js video loaded');
+    });
+
+    window.addEventListener('camera-error', (error) => {
+        console.error('❌ Camera error:', error);
     });
 </script>
 
