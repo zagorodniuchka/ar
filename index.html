@@ -1,76 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AR Crimmus Cats</title>
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar-nft.js"></script>
+
+    <style>
+        body { margin: 0; overflow: hidden; }
+
+        .arjs-loader {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .arjs-loader div {
+            color: white;
+            font-size: 1.5em;
+            font-family: Arial, sans-serif;
+        }
+
+        #instructions {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            padding: 15px 25px;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 80%;
+            font-size: 14px;
+            z-index: 9999;
+        }
+    </style>
 </head>
-<body style="margin: 0; overflow: hidden;">
+
+<body>
+<div class="arjs-loader"><div>Loading AR scene...</div></div>
+
+<div id="instructions">Point camera at Green Cat marker</div>
 
 <a-scene
-        vr-mode-ui="enabled: false"
-        renderer="logarithmicDepthBuffer: true;"
         embedded
-        arjs="sourceType: webcam; debugUIEnabled: false;"
-        cursor="rayOrigin: mouse">
-
+        vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true; antialias: true;"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+>
     <!-- Green Cat Marker -->
     <a-nft
+            id="greenCat"
             type="nft"
             url="./markers/cat-green"
             smooth="true"
             smoothCount="10"
-            smoothTolerance=".01"
+            smoothTolerance="0.01"
             smoothThreshold="5"
-            id="greenCat">
-
+    >
         <a-box
                 position="0 0.5 0"
                 rotation="0 45 0"
-                material="color: #00ff00; opacity: 0.8;"
-                animation="property: rotation; to: 0 405 0; loop: true; dur: 3000"
+                color="#00ff00"
                 scale="0.8 0.8 0.8"
-                class="clickable"
-                id="greenBox">
+                animation="property: rotation; to: 0 405 0; loop: true; dur: 3000"
+                class="clickable">
         </a-box>
 
         <a-text
-                value="Click me!"
+                value="Green Crimmus!"
                 position="0 1.5 0"
                 align="center"
                 color="#00ff00"
-                scale="1.2 1.2 1.2">
+                scale="1.5 1.5 1.5">
         </a-text>
     </a-nft>
 
     <!-- Purple Cat Marker -->
     <a-nft
+            id="purpleCat"
             type="nft"
             url="./markers/cat-purple"
             smooth="true"
             smoothCount="10"
-            smoothTolerance=".01"
+            smoothTolerance="0.01"
             smoothThreshold="5"
-            id="purpleCat"
-            visible="false">
-
+            visible="false"
+    >
         <a-sphere
                 position="0 0.5 0"
                 radius="0.5"
-                material="color: #ff00ff; opacity: 0.8;"
-                animation="property: position; to: 0 1.2 0; loop: true; dur: 2000; dir: alternate; easing: easeInOutQuad"
-                class="clickable"
-                id="purpleSphere">
+                color="#ff00ff"
+                animation="property: position; to: 0 1.2 0; loop: true; dur: 2000; dir: alternate"
+                class="clickable">
         </a-sphere>
 
         <a-text
-                value="Click me too!"
+                value="Purple Crimmus!"
                 position="0 2 0"
                 align="center"
                 color="#ff00ff"
-                scale="1.2 1.2 1.2">
+                scale="1.5 1.5 1.5">
         </a-text>
     </a-nft>
 
@@ -78,65 +118,78 @@
 </a-scene>
 
 <script>
-    AFRAME.registerComponent('star-spawner', {
+    const loader = document.querySelector('.arjs-loader');
+    const instructions = document.getElementById('instructions');
+
+    let greenScanned = false;
+
+    const greenMarker = document.getElementById('greenCat');
+    const purpleMarker = document.getElementById('purpleCat');
+
+    // Green cat found
+    greenMarker.addEventListener('markerFound', () => {
+        console.log('Green cat marker found!');
+        loader.style.display = 'none';
+        greenScanned = true;
+
+        // Enable purple marker
+        purpleMarker.setAttribute('visible', 'true');
+        instructions.textContent = 'Now point at Purple Cat marker!';
+    });
+
+    greenMarker.addEventListener('markerLost', () => {
+        console.log('Green cat marker lost');
+    });
+
+    // Purple cat found
+    purpleMarker.addEventListener('markerFound', () => {
+        if (greenScanned) {
+            console.log('Purple cat marker found!');
+            instructions.textContent = 'Both cats found! 🎉';
+        }
+    });
+
+    purpleMarker.addEventListener('markerLost', () => {
+        console.log('Purple cat marker lost');
+    });
+
+    // Add star spawning on click
+    AFRAME.registerComponent('clickable', {
         init: function() {
-            this.el.addEventListener('click', (evt) => {
-                console.log('Clicked!');
-                this.spawnStar(evt);
+            this.el.addEventListener('click', () => {
+                console.log('Object clicked!');
+                this.spawnStar();
             });
         },
 
-        spawnStar: function(evt) {
-            const star = document.createElement('a-entity');
+        spawnStar: function() {
+            const star = document.createElement('a-sphere');
+            const parent = this.el.parentEl;
 
-            // Позиция клика
-            const clickPos = this.el.object3D.position;
-
-            // Создаём звезду
-            star.setAttribute('geometry', {
-                primitive: 'tetrahedron',
-                radius: 0.15
-            });
-
-            star.setAttribute('material', {
-                color: '#ffff00',
-                emissive: '#ffaa00',
-                emissiveIntensity: 0.5
-            });
-
+            star.setAttribute('radius', '0.15');
+            star.setAttribute('color', '#ffff00');
             star.setAttribute('position', {
-                x: clickPos.x + (Math.random() - 0.5) * 0.5,
-                y: clickPos.y + 0.5,
-                z: clickPos.z + (Math.random() - 0.5) * 0.5
+                x: Math.random() * 2 - 1,
+                y: this.el.object3D.position.y + 1,
+                z: Math.random() * 2 - 1
             });
 
-            // Анимация: вращение и исчезновение
             star.setAttribute('animation', {
-                property: 'rotation',
-                to: '0 360 360',
-                loop: true,
-                dur: 2000
-            });
-
-            star.setAttribute('animation__scale', {
                 property: 'scale',
                 from: '0 0 0',
                 to: '1 1 1',
-                dur: 500,
-                easing: 'easeOutElastic'
+                dur: 500
             });
 
-            star.setAttribute('animation__fadeout', {
+            star.setAttribute('animation__fade', {
                 property: 'scale',
                 to: '0 0 0',
                 delay: 2000,
                 dur: 500
             });
 
-            // Добавляем к родителю
-            this.el.parentEl.appendChild(star);
+            parent.appendChild(star);
 
-            // Удаляем через 3 секунды
             setTimeout(() => {
                 if (star.parentNode) {
                     star.parentNode.removeChild(star);
@@ -145,30 +198,11 @@
         }
     });
 
-    // Логика маркеров
-    let greenScanned = false;
-
-    const greenMarker = document.querySelector('#greenCat');
-    const purpleMarker = document.querySelector('#purpleCat');
-
-    greenMarker.addEventListener('markerFound', () => {
-        console.log('Green cat found!');
-        greenScanned = true;
-        purpleMarker.setAttribute('visible', 'true');
-    });
-
-    // Добавляем компонент к кликабельным объектам
+    // Register clickable component
     document.addEventListener('DOMContentLoaded', () => {
-        const greenBox = document.querySelector('#greenBox');
-        const purpleSphere = document.querySelector('#purpleSphere');
-
-        if (greenBox) {
-            greenBox.setAttribute('star-spawner', '');
-        }
-
-        if (purpleSphere) {
-            purpleSphere.setAttribute('star-spawner', '');
-        }
+        document.querySelectorAll('.clickable').forEach(el => {
+            el.setAttribute('clickable', '');
+        });
     });
 </script>
 
