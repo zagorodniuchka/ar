@@ -52,6 +52,40 @@
         }
         #counter.visible { opacity: 1; }
 
+        #testButton {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px 24px;
+            color: #c94b4b;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 15px;
+            border: 2px solid #c94b4b;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+        #testButton:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        #debugInfo {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 16px;
+            color: #00ff00;
+            font-size: 14px;
+            font-family: monospace;
+            border-radius: 10px;
+            z-index: 9999;
+        }
+
         .screen-snowflake {
             position: fixed;
             color: white;
@@ -76,6 +110,8 @@
 
 <div id="message"></div>
 <div id="counter">❄️ 0</div>
+<div id="debugInfo">Marker: ❌ Not found</div>
+<button id="testButton">TEST SNOW (no marker needed)</button>
 
 <a-scene
         embedded
@@ -105,21 +141,27 @@
     const message = document.getElementById('message');
     const counter = document.getElementById('counter');
     const marker = document.getElementById('catsMarker');
+    const debugInfo = document.getElementById('debugInfo');
+    const testButton = document.getElementById('testButton');
 
     let markerFound = false;
     let totalSnowflakes = 0;
+
+    // Показываем счётчик сразу для теста
+    counter.classList.add('visible');
 
 
 
     marker.addEventListener('markerFound', () => {
         console.log('🐱 Cats marker found!');
+        debugInfo.textContent = 'Marker: ✅ FOUND!';
+        debugInfo.style.color = '#00ff00';
 
         if (!markerFound) {
             markerFound = true;
 
             message.textContent = '🐱 Marker found! Tap to make it snow! ❄️';
             message.classList.add('visible');
-            counter.classList.add('visible');
 
             setTimeout(() => {
                 message.classList.remove('visible');
@@ -129,6 +171,8 @@
 
     marker.addEventListener('markerLost', () => {
         console.log('Cats marker lost');
+        debugInfo.textContent = 'Marker: ❌ Lost';
+        debugInfo.style.color = '#ff6666';
     });
 
     function createScreenSnowflake(x, y) {
@@ -167,6 +211,34 @@
             }
         }, duration * 1000);
     }
+
+    // Тестовая кнопка - работает без маркера
+    testButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        const numFlakes = 5 + Math.floor(Math.random() * 5);
+
+        for (let i = 0; i < numFlakes; i++) {
+            setTimeout(() => {
+                const offsetX = (Math.random() - 0.5) * 150;
+                const offsetY = (Math.random() - 0.5) * 150;
+                createScreenSnowflake(
+                    centerX + offsetX,
+                    centerY + offsetY
+                );
+            }, i * 50);
+        }
+
+        message.textContent = '❄️ Test snow created!';
+        message.classList.add('visible');
+
+        setTimeout(() => {
+            message.classList.remove('visible');
+        }, 1000);
+    });
 
     // Обработка кликов/тапов
     document.body.addEventListener('click', (e) => {
